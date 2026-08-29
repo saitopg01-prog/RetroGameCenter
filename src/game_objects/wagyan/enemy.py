@@ -6,14 +6,10 @@
 すべて地面（WAGYAN_GROUND_Y）の上に立ち、[min_x, max_x] の範囲を往復する。
 """
 
-import math
-
 import pygame
 
-from config import (
-    WAGYAN_ENEMY_W, WAGYAN_ENEMY_H, WAGYAN_ENEMY_SPEED, WAGYAN_GROUND_Y,
-    WAGYAN_COLOR_ENEMY, WAGYAN_COLOR_ENEMY_STUNNED,
-)
+from config import WAGYAN_ENEMY_W, WAGYAN_ENEMY_H, WAGYAN_ENEMY_SPEED, WAGYAN_GROUND_Y
+from utils.sprite_loader import load_wagyan_sprite
 
 WAKE_WARNING_TIME = 0.6  # しびれ解除前に点滅で予兆を出す時間（秒）
 
@@ -67,23 +63,12 @@ class Enemy:
 
         waking = self.paralyzed and self.stun_timer < WAKE_WARNING_TIME
         blink_off = waking and int(self.stun_timer * 10) % 2 == 0
-        color = WAGYAN_COLOR_ENEMY_STUNNED if self.paralyzed else WAGYAN_COLOR_ENEMY
-        if blink_off:
-            color = WAGYAN_COLOR_ENEMY
-
-        pygame.draw.ellipse(screen, color, r)
-        pygame.draw.ellipse(screen, (40, 20, 30), r, 2)
-
-        if self.paralyzed:
-            # 目を回す（気絶の記号）
-            cx, cy = r.centerx, r.top + 7
-            for i in range(2):
-                ex = cx - 6 + i * 12
-                pygame.draw.circle(screen, (255, 255, 255), (ex, cy), 4)
-                spin = self.anim * 6 + i * 2
-                dx = int(math.cos(spin) * 2)
-                dy = int(math.sin(spin) * 2)
-                pygame.draw.circle(screen, (20, 20, 20), (ex + dx, cy + dy), 1)
+        if self.paralyzed and not blink_off:
+            variant = "enemy_stunned1" if int(self.anim * 4) % 2 == 0 else "enemy_stunned2"
         else:
-            eye_x = r.centerx + self.dir * 6
-            pygame.draw.circle(screen, (20, 20, 20), (eye_x, r.top + 7), 3)
+            variant = "enemy_normal"
+
+        surf = load_wagyan_sprite(variant)
+        if self.dir < 0:
+            surf = pygame.transform.flip(surf, True, False)
+        screen.blit(surf, r)

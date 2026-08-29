@@ -22,6 +22,7 @@ from game_objects.wagyan.player import Wagyan
 from game_objects.wagyan.enemy import Enemy
 from game_objects.wagyan.boss_minigame import create_random_minigame
 from utils.synth_audio import SoundBank
+from utils.sprite_loader import load_wagyan_sprite
 from config import (
     SCREEN_WIDTH, SCREEN_HEIGHT, COLOR_WHITE, COLOR_YELLOW, COLOR_RED,
     COLOR_GRAY,
@@ -29,7 +30,6 @@ from config import (
     WAGYAN_START_LIVES, WAGYAN_RESPAWN_INVINCIBLE, WAGYAN_DEATH_TIME,
     WAGYAN_PARALYZE_SCORE, WAGYAN_WAGYANIZER_SCORE, WAGYAN_BOSS_WIN_BONUS,
     WAGYAN_VOICE_LABELS, WAGYAN_COLOR_SKY, WAGYAN_COLOR_WAVE,
-    WAGYAN_COLOR_BOSS, WAGYAN_COLOR_BODY,
 )
 
 CAM_ANCHOR = 0.36     # プレイヤーを画面のこの割合の位置に置く
@@ -47,6 +47,7 @@ class WagyanLandScene(BaseScene):
         self.big_font = pygame.font.Font(None, 60)
         self.mid_font = pygame.font.Font(None, 38)
         self.sound = SoundBank()
+        self.life_icon = pygame.transform.scale(load_wagyan_sprite("wagyan_stand"), (15, 16))
 
         self.lives = WAGYAN_START_LIVES
         self.score = 0
@@ -261,16 +262,11 @@ class WagyanLandScene(BaseScene):
 
         # Dr.デビル（左側に簡易表示）
         bx, by = 110, SCREEN_HEIGHT - 150
-        pygame.draw.ellipse(screen, WAGYAN_COLOR_BOSS, (bx - 40, by - 60, 80, 90))
-        pygame.draw.circle(screen, (230, 200, 210), (bx, by - 70), 22)
-        pygame.draw.polygon(screen, (20, 20, 20),
-                            [(bx - 20, by - 90), (bx + 20, by - 90), (bx, by - 60)])
+        screen.blit(load_wagyan_sprite("boss_dr_devil"), (bx - 40, by - 60))
 
         # ワギャン（右側で静止・こちらを向く）
         wx, wy = SCREEN_WIDTH - 130, SCREEN_HEIGHT - 120
-        pygame.draw.ellipse(screen, WAGYAN_COLOR_BODY, (wx - 18, wy - 32, 36, 42))
-        pygame.draw.circle(screen, (255, 255, 255), (wx - 8, wy - 20), 5)
-        pygame.draw.circle(screen, (20, 20, 20), (wx - 9, wy - 20), 2)
+        screen.blit(load_wagyan_sprite("boss_wagyan_faceoff"), (wx - 18, wy - 32))
 
         if self.state == "boss_intro":
             self._draw_center(screen, "DR. DEVIL CHALLENGES YOU!", COLOR_YELLOW, self.mid_font)
@@ -294,7 +290,7 @@ class WagyanLandScene(BaseScene):
 
         for i in range(self.lives):
             ix = SCREEN_WIDTH - 26 - i * 24
-            pygame.draw.ellipse(screen, WAGYAN_COLOR_BODY, (ix, 10, 16, 16))
+            screen.blit(self.life_icon, (ix, 10))
 
     def _draw_controls(self, screen):
         text = "ARROWS: MOVE   UP/Z: JUMP   SPACE: VOICE ATTACK   ESC: MENU"

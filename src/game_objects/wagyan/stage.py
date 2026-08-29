@@ -22,11 +22,9 @@ import pygame
 
 from config import (
     WAGYAN_WORLD_WIDTH, WAGYAN_GROUND_Y, WAGYAN_GOAL_X,
-    WAGYAN_COLOR_GROUND, WAGYAN_COLOR_GROUND_DARK,
-    WAGYAN_COLOR_PLATFORM, WAGYAN_COLOR_PLATFORM_DARK,
-    WAGYAN_COLOR_WAGYANIZER, WAGYAN_COLOR_GOAL,
     SCREEN_HEIGHT, SCREEN_WIDTH,
 )
+from utils.sprite_loader import load_wagyan_sprite
 
 GROUND_BOTTOM = SCREEN_HEIGHT  # 地面の下面（画面外まで塗ればよい）
 
@@ -132,16 +130,14 @@ class Stage:
         sx = rect.x - cam_x
         if sx + rect.width < 0 or sx > SCREEN_WIDTH:
             return
-        top_h = 14
-        base = WAGYAN_COLOR_PLATFORM if platform else WAGYAN_COLOR_GROUND
-        dark = WAGYAN_COLOR_PLATFORM_DARK if platform else WAGYAN_COLOR_GROUND_DARK
-        top_rect = pygame.Rect(int(sx), rect.y, rect.width, top_h)
-        body_rect = pygame.Rect(int(sx), rect.y + top_h, rect.width,
-                                min(rect.height - top_h, SCREEN_HEIGHT))
-        pygame.draw.rect(screen, base, top_rect)
-        pygame.draw.rect(screen, dark, body_rect)
+        tile = load_wagyan_sprite("platform_tile" if platform else "ground_tile")
+        tw, th = tile.get_size()
+        for tx in range(rect.x, rect.x + rect.width, tw):
+            for ty in range(rect.y, rect.y + rect.height, th):
+                screen.blit(tile, (tx - cam_x, ty))
 
     def _draw_wagyanizers(self, screen, cam_x):
+        sprite = load_wagyan_sprite("wagyanizer")
         for w in self.wagyanizers:
             if w["collected"]:
                 continue
@@ -149,17 +145,12 @@ class Stage:
             y = int(w["y"])
             if x < -30 or x > SCREEN_WIDTH + 30:
                 continue
-            # 拡声器（メガホン）風の簡易アイコン
-            pygame.draw.polygon(screen, WAGYAN_COLOR_WAGYANIZER,
-                                [(x - 12, y - 8), (x + 12, y - 14),
-                                 (x + 12, y + 14), (x - 12, y + 8)])
-            pygame.draw.circle(screen, (90, 90, 100), (x - 12, y), 8, 2)
+            screen.blit(sprite, sprite.get_rect(center=(x, y)))
 
     def _draw_goal(self, screen, cam_x):
         x = int(GOAL_X - cam_x)
-        if x < -20 or x > SCREEN_WIDTH + 20:
+        if x < -50 or x > SCREEN_WIDTH + 50:
             return
+        sprite = load_wagyan_sprite("goal")
         pole_top = WAGYAN_GROUND_Y - 130
-        pygame.draw.rect(screen, (230, 230, 230), (x, pole_top, 5, WAGYAN_GROUND_Y - pole_top))
-        pygame.draw.polygon(screen, WAGYAN_COLOR_GOAL,
-                            [(x + 5, pole_top), (x + 45, pole_top + 16), (x + 5, pole_top + 32)])
+        screen.blit(sprite, (x, pole_top))

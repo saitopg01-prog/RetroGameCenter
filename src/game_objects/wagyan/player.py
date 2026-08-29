@@ -20,8 +20,8 @@ from config import (
     WAGYAN_GRAVITY, WAGYAN_WORLD_WIDTH,
     WAGYAN_VOICE_RANGE, WAGYAN_VOICE_STUN, WAGYAN_VOICE_COOLDOWN,
     WAGYAN_VOICE_ACTIVE_TIME,
-    WAGYAN_COLOR_BODY, WAGYAN_COLOR_BODY_DARK, WAGYAN_COLOR_BELLY,
 )
+from utils.sprite_loader import load_wagyan_sprite
 
 
 class Wagyan:
@@ -38,6 +38,7 @@ class Wagyan:
         self.voice_timer = 0.0  # 現在発射中の音波が有効な残り時間
         self.walk_anim = 0.0
         self.spin_angle = 0.0
+        self.moving = False
 
     # --- 位置ヘルパー -------------------------------------------------
     @property
@@ -104,6 +105,7 @@ class Wagyan:
             self.voice_timer = max(0.0, self.voice_timer - dt)
 
         move = (1 if keys[pygame.K_RIGHT] else 0) - (1 if keys[pygame.K_LEFT] else 0)
+        self.moving = move != 0
         if move != 0:
             self.facing = move
             self.cx += move * WAGYAN_PLAYER_SPEED * dt
@@ -134,10 +136,19 @@ class Wagyan:
         self.bottom += self.vel_y * dt
 
     # --- 描画 ---------------------------------------------------------
+    def _sprite_name(self):
+        if self.state == "dying":
+            return "wagyan_dying"
+        if self.state == "air":
+            return "wagyan_air"
+        if self.moving:
+            return "wagyan_walk1" if int(self.walk_anim) % 2 == 0 else "wagyan_walk2"
+        return "wagyan_stand"
+
     def draw(self, screen, cam_x, blink=False):
         if blink:
             return
-        surf = self._build_sprite()
+        surf = load_wagyan_sprite(self._sprite_name())
         if self.facing < 0:
             surf = pygame.transform.flip(surf, True, False)
         if self.state == "dying":
@@ -145,32 +156,3 @@ class Wagyan:
         sx = int(self.cx - cam_x)
         sy = int(self.bottom - self.height / 2)
         screen.blit(surf, surf.get_rect(center=(sx, sy)))
-
-    def _build_sprite(self):
-        """恐竜×ロボット風の緑色の生物を右向き基準で組む。"""
-        w, h = self.width, self.height
-        s = pygame.Surface((w, h), pygame.SRCALPHA)
-        step = int(self.walk_anim) % 2
-        airborne = self.state in ("air", "dying")
-
-        # 体（丸っこい緑）
-        pygame.draw.ellipse(s, WAGYAN_COLOR_BODY, (2, 4, w - 4, h - 10))
-        # 背びれ（恐竜っぽいギザギザ）
-        pygame.draw.polygon(s, WAGYAN_COLOR_BODY_DARK,
-                            [(w // 2 - 2, 0), (w // 2 + 4, 2), (w // 2, 7)])
-        # お腹
-        pygame.draw.ellipse(s, WAGYAN_COLOR_BELLY, (w // 2 - 4, 12, w // 2, h - 20))
-        # 目
-        pygame.draw.circle(s, (255, 255, 255), (w - 9, 11), 5)
-        pygame.draw.circle(s, (20, 20, 20), (w - 8, 11), 2)
-        # アンテナ（ロボ感）
-        pygame.draw.line(s, WAGYAN_COLOR_BODY_DARK, (w - 10, 2), (w - 10, -4), 2)
-        pygame.draw.circle(s, (240, 210, 60), (w - 10, -5), 2)
-
-        # 脚（歩行アニメ）
-        swing = 3 if step == 0 else -3
-        if airborne:
-            swing = 4
-        pygame.draw.rect(s, WAGYAN_COLOR_BODY_DARK, (4 + swing, h - 6, 6, 6))
-        pygame.draw.rect(s, WAGYAN_COLOR_BODY_DARK, (w - 10 - swing, h - 6, 6, 6))
-        return s
