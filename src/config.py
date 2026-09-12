@@ -543,3 +543,73 @@ IKA_COLOR_PLATFORM_CRUMBLE_BROKEN = (90, 70, 40)  # 崩れかけ
 IKA_COLOR_SQUID = (235, 100, 140)            # イカの体（ピンク）
 IKA_COLOR_SQUID_DARK = (170, 60, 90)         # イカの縁取り
 IKA_COLOR_SQUID_EYE = (255, 255, 255)        # イカの目
+
+# ==========================================================================
+# ピンボール（PINBALL）設定 — 本作専用。PINBALL_ 接頭辞で既存定数と衝突を避ける
+# ==========================================================================
+
+# テーブル寸法（画面 800x600 の中央に配置）
+PINBALL_TABLE_X = 210
+PINBALL_TABLE_Y = 80
+PINBALL_TABLE_W = 380
+PINBALL_TABLE_H = 500          # テーブル下端 = 580（ドレインライン）
+PINBALL_LANE_W = 34            # 右端の発射レーン幅
+
+PINBALL_START_BALLS = 3        # ターン数（マルチボールで増える「同時に場にあるボール数」とは別概念）
+
+# ボール物理
+PINBALL_BALL_RADIUS = 9
+PINBALL_GRAVITY = 900           # pixels/sec^2
+PINBALL_MAX_SPEED = 900         # pixels/sec（上限。貫通対策）
+PINBALL_WALL_RESTITUTION = 0.85
+PINBALL_SUBSTEPS = 4            # 1フレームの分割数（貫通対策）
+
+# ポップバンパー
+PINBALL_BUMPER_RADIUS = 16
+PINBALL_BUMPER_SCORE = 100
+PINBALL_BUMPER_KICK = 380       # pixels/sec（バンパーからの跳ね返り速度）
+PINBALL_BUMPER_COMBO_WINDOW = 1.5   # 秒。この間隔以内の連続ヒットでコンボ継続
+PINBALL_BUMPER_COMBO_STEP = 50      # コンボ1段あたりの加点
+PINBALL_BUMPER_COMBO_MAX = 300      # コンボ加点の上限
+
+# スタンドターゲット（A/B/C）
+PINBALL_TARGET_W = 40
+PINBALL_TARGET_H = 10
+PINBALL_TARGET_SCORE = 200
+
+# ランプ
+PINBALL_RAMP_SCORE = 150
+PINBALL_RAMP_JACKPOT_COUNT = 5      # この回数通過するごとにジャックポット
+PINBALL_RAMP_JACKPOT_BONUS = 3000
+
+# ループレーン
+PINBALL_LOOP_SCORE = 300
+
+# マルチボール
+PINBALL_MULTIBALL_BONUS = 2000
+
+# フリッパー
+PINBALL_FLIPPER_LENGTH = 70
+PINBALL_FLIPPER_THICKNESS = 12
+PINBALL_FLIPPER_REST_ANGLE = 40     # 度（水平から時計回り。静止時は下向き）
+PINBALL_FLIPPER_UP_ANGLE = -20      # 度（作動時は上向き）
+PINBALL_FLIPPER_ANGULAR_SPEED = 1400  # 度/秒
+PINBALL_FLIPPER_KICK = 620          # pixels/sec（振り上げ中に当たった時のキック速度）
+PINBALL_FLIPPER_PIVOT_Y = 520
+PINBALL_FLIPPER_GAP = 190           # 左右ピボット間の距離
+
+# 発射（プランジャー）
+PINBALL_LAUNCH_SPEED = 620          # pixels/sec（固定速度で打ち出す簡易方式）
+
+# 色
+PINBALL_COLOR_BG = (26, 16, 46)             # テーブル背景（紫系ネオン）
+PINBALL_COLOR_WALL = (150, 110, 230)
+PINBALL_COLOR_BALL = (230, 230, 240)
+PINBALL_COLOR_BUMPER = (255, 90, 120)
+PINBALL_COLOR_BUMPER_LIT = (255, 210, 90)
+PINBALL_COLOR_TARGET = (90, 160, 255)
+PINBALL_COLOR_TARGET_LIT = (255, 210, 60)
+PINBALL_COLOR_RAMP = (90, 230, 190)
+PINBALL_COLOR_LOOP = (230, 140, 255)
+PINBALL_COLOR_FLIPPER = (90, 170, 255)
+PINBALL_COLOR_LANE = (60, 40, 90)

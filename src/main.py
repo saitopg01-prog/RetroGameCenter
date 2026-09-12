@@ -19,6 +19,7 @@ from scenes.wagyan_land_scene import WagyanLandScene
 from scenes.snake_scene import SnakeScene
 from scenes.puyo_puyo_scene import PuyoPuyoScene
 from scenes.ika_jump_scene import IkaJumpScene
+from scenes.pinball_scene import PinballScene
 from scenes.game_over_scene import GameOverScene
 from scenes.clear_scene import ClearScene
 
@@ -52,6 +53,7 @@ class GameManager:
         self.scene_manager.register_scene("snake", SnakeScene())
         self.scene_manager.register_scene("puyo_puyo", PuyoPuyoScene())
         self.scene_manager.register_scene("ika_jump", IkaJumpScene())
+        self.scene_manager.register_scene("pinball", PinballScene())
         self.scene_manager.change_scene("menu")
 
     def handle_events(self):
