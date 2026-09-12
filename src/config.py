@@ -46,6 +46,21 @@ COLOR_DK = (120, 72, 40)         # ドンキーコング（茶）
 COLOR_DK_FACE = (210, 170, 120)
 COLOR_PAULINE = (240, 90, 160)   # ポーリン（ピンク）
 
+# メニュー画面（温かみのあるレトロゲームショップ風。MENU_ 接頭辞）
+MENU_COLOR_BG_TOP = (85, 42, 14)          # 背景グラデーション上端（焦げ茶寄りオレンジ）
+MENU_COLOR_BG_BOTTOM = (205, 100, 25)     # 背景グラデーション下端（鮮やかなオレンジ）
+MENU_COLOR_FRAME = (135, 78, 30)          # 外枠（木目の板、やや朱色寄り）
+MENU_COLOR_FRAME_DARK = (85, 46, 18)      # 外枠の木目ライン・カード枠線
+MENU_COLOR_TITLE = (255, 170, 60)         # タイトル文字（オレンジ）
+MENU_COLOR_TITLE_SHADOW = (120, 60, 20)   # タイトル影
+MENU_COLOR_TEXT = (255, 224, 170)         # 通常文字（クリーム）
+MENU_COLOR_CARD_BAND = (115, 60, 20)      # カード下部帯（プレイ可）
+MENU_COLOR_CARD_BAND_LOCKED = (78, 46, 22)  # カード下部帯（COMING SOON）
+MENU_COLOR_GLOW = (255, 170, 60)          # 選択中カードの発光基準色
+MENU_COLOR_BULB_ON = (255, 200, 90)       # イルミネーション：点灯
+MENU_COLOR_BULB_OFF = (110, 80, 50)       # イルミネーション：消灯
+MENU_COLOR_BULB_WIRE = (40, 25, 15)       # イルミネーションの電線
+
 # テトリス設定
 TETRIS_COLS = 10
 TETRIS_ROWS = 20

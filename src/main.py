@@ -25,6 +25,9 @@ class GameManager:
     def __init__(self):
         pygame.init()
         pygame.font.init()
+        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 "assets", "app", "icon.png")
+        pygame.display.set_icon(pygame.image.load(icon_path))
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
