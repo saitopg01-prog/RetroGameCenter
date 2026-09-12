@@ -23,6 +23,7 @@ GAMES = [
     ("SNAKE", "snake", "snake"),
     ("PUYO PUYO", "puyo_puyo", "puyo_puyo"),
     ("IKA JUMP", "ika_jump", "ika_jump"),
+    ("DUCK HUNT", "duck_hunt", "duck_hunt"),
     ("SPACE INVADERS", "space_invaders", "space_invaders"),
     ("BREAKOUT", "block_breaker", "breakout"),
     ("WAGYAN LAND", "wagyan_land", "wagyan_land"),

@@ -133,6 +133,9 @@ class SoundBank:
             "launch": ([(260, 500, 0.09)], "square", 0.2),
             # ズドン：ドレイン（ボールを落とした）の重い下降音
             "drain": ([(500, 80, 0.4)], "triangle", 0.28),
+            # パンッ：銃声（短い下降ノイズ的な破裂音）。space_invaders の "shoot" と
+            # 名前が衝突するため、ダックハント専用として別名にした
+            "gun_shoot": ([(1200, 80, 0.05), (400, 60, 0.04)], "square", 0.30),
         }
         for name, (segments, wave, vol) in recipes.items():
             try:
