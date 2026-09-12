@@ -187,6 +187,173 @@ ICE_COLOR_CONDOR = (60, 55, 70)       # コンドル（黒紫）
 ICE_COLOR_CLOUD = (235, 240, 250)     # 山頂の雲足場
 
 # ==========================================================================
+# スペースインベーダー（SI）設定 — 本作専用。SI_ 接頭辞で既存定数と衝突を避ける
+# ==========================================================================
+
+# 自機
+SI_PLAYER_W = 36
+SI_PLAYER_H = 18
+SI_PLAYER_Y = 540              # 自機の上端 y
+SI_PLAYER_SPEED = 240           # pixels/sec（左右移動）
+SI_PLAYER_LIVES = 3
+SI_RESPAWN_INVINCIBLE = 1.5     # 復帰後の無敵時間（秒）
+SI_DEATH_TIME = 1.2             # やられ演出の時間（秒）
+
+# 自弾
+SI_BULLET_W = 3
+SI_BULLET_H = 14
+SI_BULLET_SPEED = 640           # pixels/sec（上方向）
+
+# インベーダー編隊
+SI_INV_ROWS = 5
+SI_INV_COLS = 11
+SI_INV_W = 32
+SI_INV_H = 22
+SI_INV_GAP_X = 16
+SI_INV_GAP_Y = 16
+SI_INV_TOP = 80                 # 編隊の初期 y（最上段の上端）
+SI_INV_BASE_SPEED = 40          # pixels/sec（残数が多いときの横移動速度）
+SI_INV_MAX_SPEED = 260          # pixels/sec（残り1体のときの速度上限）
+SI_INV_DROP = 12                # 端に到達したときの下降量（px）
+SI_INV_INVASION_Y = SI_PLAYER_Y - 40  # ここまで下降したら侵略＝即ゲームオーバー
+SI_INV_ROW_SCORES = [30, 20, 20, 10, 10]  # 上段から順（原作準拠のイメージ）
+
+# 敵弾
+SI_ENEMY_BULLET_W = 3
+SI_ENEMY_BULLET_H = 14
+SI_ENEMY_BULLET_SPEED = 260     # pixels/sec（下方向）
+SI_ENEMY_BULLET_MAX = 3         # 画面内に同時に存在できる敵弾数の上限
+SI_ENEMY_SHOOT_INTERVAL = 0.55  # 敵弾を撃つか判定する間隔（秒）
+
+# シールド（バンカー）
+SI_SHIELD_CELL = 8              # シールド1ブロックの辺（px）
+SI_SHIELD_Y = SI_PLAYER_Y - 110  # シールド上端の y
+SI_SHIELD_COUNT = 4
+
+# UFO（ボーナス）
+SI_UFO_W = 40
+SI_UFO_H = 18
+SI_UFO_Y = 50
+SI_UFO_SPEED = 130              # pixels/sec
+SI_UFO_MIN_INTERVAL = 12.0      # 出現間隔（秒・最短）
+SI_UFO_MAX_INTERVAL = 22.0      # 出現間隔（秒・最長）
+SI_UFO_SCORES = [50, 100, 150, 300]
+
+# 色（SI 専用）
+SI_COLOR_PLAYER = (90, 210, 255)
+SI_COLOR_BULLET_PLAYER = (255, 255, 255)
+SI_COLOR_BULLET_ENEMY = (255, 210, 80)
+SI_COLOR_INVADER_ROWS = [
+    (255, 90, 120),   # 1段目（最上段・高得点）
+    (255, 180, 60),
+    (255, 180, 60),
+    (90, 230, 120),
+    (90, 230, 120),
+]
+SI_COLOR_SHIELD = (90, 220, 110)
+SI_COLOR_UFO = (230, 80, 220)
+
+# ==========================================================================
+# マリオカート（MK）設定 — 本作専用。MK_ 接頭辞で既存定数と衝突を避ける
+# フェーズA：Mode7風レンダリング＋運転＋タイム計測（CPU・アイテムなし）
+# ==========================================================================
+
+# コース形状（スタジアム型）
+MK_TRACK_STRAIGHT_HALF = 900     # 直線区間の半長
+MK_TRACK_RADIUS = 500            # 両端の半円半径（中心線基準）
+MK_TRACK_ROAD_HALF_WIDTH = 260   # 路面の半幅
+MK_TRACK_CURB_WIDTH = 40         # 縁石帯の幅
+MK_CURB_STRIPE_LEN = 120         # 縁石の縞の周期（弧長パラメータ基準）
+MK_LAPS = 3                      # レースの周回数
+MK_LAP_MIN_PROGRESS_RATIO = 0.85  # 直前のラップ判定からこの割合(×2π)以上
+                                   # 進行角度が進んでいないと1周と認めない
+                                   # （スタート地点近くでの偽1周カウント防止）
+
+# カメラ・投影
+MK_CAM_HEIGHT = 220              # カメラの高さ
+MK_CAM_BACK = 260                # カートから後方に引く距離
+MK_HORIZON_Y = 260               # 地平線の画面 y 座標
+MK_PROJ_SCALE = 464              # 疑似遠近スケール（最前列 z ≈ 300 になるよう逆算）
+MK_FOCAL_LENGTH = 280            # 画角相当の焦点距離
+
+# カート物理
+MK_MAX_SPEED = 620               # pixels/sec（世界座標上の最高速度）
+MK_MAX_REVERSE_SPEED = -200      # pixels/sec（後退の最高速度）
+MK_OFFTRACK_MAX_SPEED = 220      # コースアウト時の速度上限
+MK_ACCEL = 420                   # pixels/sec^2（加速）
+MK_BRAKE = 620                   # pixels/sec^2（ブレーキ）
+MK_DRAG = 0.6                    # 速度に比例する空気抵抗係数（毎秒）
+MK_OFFTRACK_EXTRA_DRAG = 2.2     # コースアウト時に追加される減衰係数（毎秒）
+MK_TURN_RATE = 2.6               # 操舵の角速度係数（rad/sec 相当）
+MK_TURN_MIN_SPEED = 15           # この速度未満では操舵が効かない
+
+# 色（MK 専用）
+MK_COLOR_SKY_TOP = (110, 180, 240)
+MK_COLOR_SKY_BOTTOM = (200, 225, 250)
+MK_COLOR_ROAD = (70, 70, 78)
+MK_COLOR_ROAD_DARK = (60, 60, 68)
+MK_COLOR_CURB_A = (220, 60, 60)
+MK_COLOR_CURB_B = (240, 240, 240)
+MK_COLOR_GRASS = (60, 170, 80)
+MK_COLOR_GRASS_DARK = (50, 150, 70)
+MK_COLOR_KART_BODY = (220, 40, 40)
+MK_COLOR_KART_TRIM = (250, 220, 60)
+
+# ==========================================================================
+# マリオカート フェーズB＋C：CPU対戦・アイテム
+# ==========================================================================
+
+# ビルボード投影（他カート・アイテム類を疑似3Dの平面スプライトとして描画）
+MK_BILLBOARD_MIN_Z = 40          # これより近い（≒背後含む）と描画しない
+MK_BILLBOARD_MAX_Z = 6000        # これより遠いと描画しない
+MK_KART_WORLD_SIZE = 140         # カート1台の見かけ上のワールドサイズ
+MK_ITEMBOX_WORLD_SIZE = 90
+MK_BANANA_WORLD_SIZE = 50
+MK_SHELL_WORLD_SIZE = 55
+
+# CPU
+MK_CPU_COUNT = 3
+MK_CPU_LOOKAHEAD_BASE = 260.0    # 目標点を進めるペースの基準（world units/sec）
+MK_CPU_STEER_GAIN = 0.6          # 操舵角の正規化係数（小さいほど敏感）
+MK_CPU_ACCEL_ANGLE_LIMIT = 1.0   # この角度誤差(rad)を超えたらアクセルを緩める
+MK_CPU_SPEED_SCALE_MIN = 0.82    # CPUごとの最高速のばらつき（下限）
+MK_CPU_SPEED_SCALE_MAX = 1.00    # CPUごとの最高速のばらつき（上限）
+MK_CPU_START_GAP = 120           # グリッドスタートでのカート間隔（後方へ）
+
+# アイテムボックス
+MK_ITEM_BOX_COUNT = 4
+MK_ITEM_BOX_RADIUS = 60          # 取得判定半径
+MK_ITEM_BOX_RESPAWN = 6.0        # 再出現までの秒数
+
+# バナナ
+MK_BANANA_HIT_RADIUS = 45
+MK_BANANA_LIFETIME = 20.0        # 使われず放置される場合の寿命（秒、安全策）
+MK_BANANA_DROP_OFFSET = 70       # カート後方の設置距離
+
+# こうら
+MK_SHELL_SPEED = 780.0           # pixels/sec
+MK_SHELL_HIT_RADIUS = 40
+MK_SHELL_LIFETIME = 4.0          # 秒（何にも当たらなければ消える）
+MK_SHELL_SPAWN_OFFSET = 70       # カート前方の発射位置オフセット（自分に当たらないように）
+
+# スピンアウト
+MK_STUN_DURATION = 1.4           # 操作不能になる時間（秒）
+
+# CPU のアイテム使用
+MK_CPU_ITEM_USE_DELAY_MIN = 0.4
+MK_CPU_ITEM_USE_DELAY_MAX = 2.0
+
+# 色
+MK_COLOR_CPU = [
+    (60, 120, 230),
+    (60, 190, 90),
+    (230, 170, 40),
+]
+MK_COLOR_ITEMBOX = (240, 200, 40)
+MK_COLOR_BANANA = (235, 210, 40)
+MK_COLOR_SHELL = (60, 200, 90)
+
+# ==========================================================================
 # ワギャンランド（WAGYAN）設定 — 本作専用。WAGYAN_ 接頭辞で既存定数と衝突を避ける
 # ==========================================================================
 
